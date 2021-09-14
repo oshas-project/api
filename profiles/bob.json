@@ -1,0 +1,14 @@
+{
+  "username": "bob",
+  "display": "Bob Smith",
+  "preferences": [
+    {
+      "id": "bed_light",
+      "state": false
+    },
+    {
+      "id": "fan",
+      "state": true
+    }
+  ]
+}
