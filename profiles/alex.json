@@ -3,10 +3,12 @@
   "display": "Alex Turner",
   "preferences": [
     {
+      "handler": "kasa_switch",
       "id": "bed_light",
       "state": true
     },
     {
+      "handler": "kasa_switch",
       "id": "fan",
       "state": true
     }
