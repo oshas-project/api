@@ -10,10 +10,10 @@ Clone the repository
 
 `git clone https://github.com/oshas-project/camera-server.git`
 
-Install the requirements
+Install the dependencies
 
-`pip install -r requirements.txt`
+`npm i`
 
-Execute the main project file
+Start in production
 
-`py oshas.py`
+`npm start`
