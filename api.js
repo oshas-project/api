@@ -13,6 +13,8 @@ app.get('/', (req, res) => {
 
 app.get('/profiles', (req, res) => {
 	const body = req.body
+	const profile = findProfile(body)
+	console.log(profile)
 	sendMessage(res, 'Please specify a username!', 400)
 })
 
@@ -25,11 +27,6 @@ app.get('/profiles/:username', (req, res) => {
 		return
 	}
 	res.send(profile)
-})
-
-// if no profile is specified, send an error
-app.put('/profiles/', (req, res) => {
-	sendMessage(res, 'Please specify a username!', 400)
 })
 
 // main post for profile  => {
@@ -50,6 +47,26 @@ function start() {
 	app.listen(port, () => {
 		console.log(`API Listening @ https://localhost:${port}`)
 	})
+}
+
+function findProfile(query) {
+	for (const profile of database.get_profiles()) {
+		let allMatched = true
+		for (const entry of Object.entries(query)) {
+			if (!(Object.keys(profile).includes(entry[0]))) {
+				allMatched = false
+				continue
+			}
+
+			if (entry[1] != profile[entry[0]]) {
+				allMatched = false
+			}
+		}
+
+		if (allMatched) {
+			return profile
+		}
+	}
 }
 
 function sendMessage(res, message) {
