@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 // weird workaround for relative paths not working
-const PROFILES_DIRECTORY = path.join(__dirname + '/profiles/')
+const PROFILES_DIRECTORY = path.join(__dirname + '/data/profiles/')
 
 function get_profile(username) {
 	const path = PROFILES_DIRECTORY + username + '.json'

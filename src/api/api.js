@@ -1,5 +1,6 @@
 const express = require('express')
-const database = require('./data/database.js')
+const database = require('./database.js')
+const handlers = require('./handlers.js')
 
 const app = express()
 const port = 5000
@@ -25,7 +26,7 @@ app.get('/profiles', (req, res) => {
 })
 
 // main post for profile  => {
-	app.put('/profiles/', (req, res) => {
+app.put('/profiles/', (req, res) => {
 	const ipv4 = req.ip.split(':')[3]
 	const body = req.body
 	if (!('username' in body)) {
@@ -33,13 +34,44 @@ app.get('/profiles', (req, res) => {
 		return
 	}
 
-	const profile = database.get_profile(body['username'])
+	const username = body['username']
+	const profile = database.get_profile(username)
 	if (profile) {
 		// overriding profile
 		console.log('Overriding existing profile')
 	} else {
 		// creating new profile
 		console.log('Attempting to create new profile')
+	}
+})
+
+app.get('/event/', (req, res) => {
+	const ipv4 = req.ip.split(':')[3]
+	const body = req.body
+
+	const event_id = body['event_id']
+	if (!event_id) {
+		sendMessage(res, 'Please specify an event_id', 400)
+		return
+	}
+	
+	// could expand to a directory with files for each event
+	// for a small number of events, this works fine at the moment
+	if (event_id === 'face_detected') {
+		const username = body['username']
+		if (!username) {
+			sendMessage(res, 'Please specify a username for ' + event_id, 400)
+			return
+		}
+
+		const profile = database.get_profile(username)
+		if (!profile) {
+			sendMessage(res, 'A profile with that username doesn\'t exist', 200)
+			return
+		}
+
+		sendMessage(res, 'SUCCESS face_detected for ' + profile['display'], 200)
+		handlers.handle(profile)
 	}
 })
 
