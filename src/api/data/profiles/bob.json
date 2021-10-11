@@ -4,13 +4,8 @@
   "preferences": [
     {
       "handler": "kasa_switch",
-      "id": "bed_light",
-      "state": false
-    },
-    {
-      "handler": "kasa_switch",
       "id": "fan",
-      "state": true
+      "state": false
     }
   ]
 }
