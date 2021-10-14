@@ -35,7 +35,7 @@ app.put('/profiles/', (req, res) => {
 	}
 
 	const username = body['username']
-	const profile = database.get_profile(username)
+	const profile = database.getProfile(username)
 	if (profile) {
 		// overriding profile
 		console.log('Overriding existing profile')
@@ -64,7 +64,7 @@ app.get('/event/', (req, res) => {
 			return
 		}
 
-		const profile = database.get_profile(username)
+		const profile = database.getProfile(username)
 		if (!profile) {
 			sendMessage(res, 'FAILED: A profile with that username doesn\'t exist', 404)
 			return
@@ -87,7 +87,7 @@ function start() {
 }
 
 function findProfile(query) {
-	for (const profile of database.get_profiles()) {
+	for (const profile of database.getProfiles()) {
 		let allMatched = true
 		for (const entry of Object.entries(query)) {
 			if (!(Object.keys(profile).includes(entry[0]))) {
