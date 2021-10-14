@@ -1,9 +1,9 @@
-# camera-server
+# api server
 ![License Badge](https://img.shields.io/github/license/oshas-project/camera-server?color=blue&style=for-the-badge)
 ![Last Commit Badge](https://img.shields.io/github/last-commit/oshas-project/camera-server?style=for-the-badge)
 ![Code Size Badge](https://img.shields.io/github/repo-size/oshas-project/camera-server?color=yellow&style=for-the-badge)
 
-The server to be run on the camera module including the api, facial recognition functionality and more. This server will co-operate with an android application that allows for the easy manipulation of users, access to the camera feed and adding of preferences.
+The api server to be run on the camera module. This server will co-operate with an android application that allows for the easy manipulation of users, viewing of history and adding of preferences.
 
 ## Installation
 Clone the repository
