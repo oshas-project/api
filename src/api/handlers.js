@@ -7,12 +7,11 @@ const HANDLERS_DIRECTORY = path.join(__dirname + '/handlers/')
 function handle(profile) {
 	for (const preference of profile.preferences) {
 		const path = HANDLERS_DIRECTORY + preference.handler + '.js'
-		if (!(fs.existsSync(path))) return null
+		if (!(fs.existsSync(path))) return false
 		const handler = require(path)
-		// check for handler not existing?
 		handler.execute(preference)
+		return true
 	}
-	
 }
 
 function getPreferenceFromHandler(preferences, handlerName) {

@@ -60,18 +60,23 @@ app.get('/event/', (req, res) => {
 	if (event_id === 'face_detected') {
 		const username = body['username']
 		if (!username) {
-			sendMessage(res, 'Please specify a username for ' + event_id, 400)
+			sendMessage(res, 'FAILED: Please specify a username for ' + event_id, 400)
 			return
 		}
 
 		const profile = database.get_profile(username)
 		if (!profile) {
-			sendMessage(res, 'A profile with that username doesn\'t exist', 200)
+			sendMessage(res, 'FAILED: A profile with that username doesn\'t exist', 404)
 			return
 		}
 
-		sendMessage(res, 'SUCCESS face_detected for ' + profile['display'], 200)
-		handlers.handle(profile)
+		
+		const success = handlers.handle(profile)
+		if (success) {
+			sendMessage(res, 'SUCCESS: face_detected for ' + profile['display'], 200)
+		} else {
+			sendMessage(res, 'FAILED: The profile had an invalid profile (likely invalid handler name)', 422)
+		}
 	}
 })
 
