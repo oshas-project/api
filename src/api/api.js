@@ -5,6 +5,9 @@ const handlers = require('./handlers.js')
 const app = express()
 const port = 5000
 
+// this is here for future development, not yet implemented
+let LOG_MODE = false
+
 app.use(express.json())
 app.set('trust proxy', true)
 
@@ -21,37 +24,39 @@ app.get('/profiles', (req, res) => {
 	if (profile) {
 		sendData(res, profile, 200)
 	} else {
-		sendMessage(res, 'No profile was found.', 400)
+		sendMessage(res, 'FAILED: No profile was found.', 400)
 	}
 })
 
 // main post for profile  => {
-app.put('/profiles/', (req, res) => {
+app.put('/profiles', (req, res) => {
 	const ipv4 = req.ip.split(':')[3]
 	const body = req.body
 	if (!('username' in body)) {
-		sendMessage(res, 'Please specify a username', 400)
+		sendMessage(res, 'FAILED: Please specify a username!', 400)
 		return
 	}
 
 	const username = body['username']
 	const profile = database.getProfile(username)
 	if (profile) {
-		// overriding profile
-		console.log('Overriding existing profile')
+		// overriding existing profile
+		sendMessage(res, 'SUCCESS: Modified ' + username + ' profile.', 200)
+		database.setProfile(username, body)
 	} else {
 		// creating new profile
-		console.log('Attempting to create new profile')
+		database.setProfile(username, body)
+		sendMessage(res, 'SUCCESS: Created new profile.', 200)
 	}
 })
 
-app.get('/event/', (req, res) => {
+app.get('/event', (req, res) => {
 	const ipv4 = req.ip.split(':')[3]
 	const body = req.body
 
 	const event_id = body['event_id']
 	if (!event_id) {
-		sendMessage(res, 'Please specify an event_id', 400)
+		sendMessage(res, 'FAILED: Please specify an event_id', 400)
 		return
 	}
 	
@@ -80,9 +85,10 @@ app.get('/event/', (req, res) => {
 	}
 })
 
-function start() {
+function start(logging) {
 	app.listen(port, () => {
 		console.log(`API Listening @ https://localhost:${port}`)
+		LOG_MODE = logging
 	})
 }
 

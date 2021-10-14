@@ -22,15 +22,14 @@ function getProfiles() {
 	return profiles
 }
 
-function setProfiles(username, data) {
+function setProfile(username, data) {
 	const path = PROFILES_DIRECTORY + username + '.json'
 	const content = JSON.stringify(data, null, 2)
-	if (!(fs.existsSync(path))) return null
 	fs.writeFileSync(path, content)
 }
 
 module.exports = {
 	getProfile,
 	getProfiles,
-	setProfiles
+	setProfile
 }

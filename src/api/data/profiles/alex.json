@@ -3,7 +3,7 @@
   "display": "Alex Turner",
   "preferences": [
     {
-      "handler": "test",
+      "handler": "kasa_switch",
       "id": "fan",
       "state": true
     }
